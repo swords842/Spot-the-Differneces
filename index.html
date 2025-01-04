@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <style>
+
+        * {
+            padding: 0px;
+            margin: 0px;
+        }
+
+        html, body {
+            height: 100%;
+            background-color: orange;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        
+    </style>
+
+
+    <canvas id = 'canvas'></canvas>
+
+    <script>
+
+        function loadImage( src ){
+            let img = document.createElement( "img" )
+            img.src = src
+            return img
+        }
+
+        function arcfs( x, y, radius, color ){
+            c.fillStyle = color
+            c.beginPath()
+            c.arc( x, y, radius, 0, 2 * Math.PI )
+            c.fill()
+        }
+
+        function srs( x, y, radius, color ){
+            c.strokeStyle = color
+            c.beginPath()
+            c.arc( x, y, radius, 0, 2 * Math.PI )
+            c.stroke()
+        }
+
+        function mouse_Is_In_Current_Circle( targetX, targetY, target_Radius ){
+
+            let x = ( mouseX - targetX ) * ( mouseX - targetX )
+            let y = ( mouseY - targetY ) * ( mouseY - targetY )
+            
+            let distance = Math.sqrt( x + y )
+
+            if( distance <= target_Radius ){
+                return true
+            }
+            
+            return false
+        }
+
+    </script>
+
+    <script>
+        
+        const q = console.log
+
+
+        const c = canvas.getContext( "2d" )
+        c.canvas.width  = 800
+        c.canvas.height = 600
+
+        //   Load Pictures
+        let imgs = []
+        for( let a = 1; a <= 3; a++ ){
+            let name = "img/" + a + ".jpg" 
+            imgs.push( loadImage( name ) )
+        }
+
+        let mouseX, mouseY
+        let canvas_Rect = canvas.getBoundingClientRect()
+
+        let current_Index         = 0
+        let correct_Answer_So_Far = 0
+        const all_Pictures        = []
+
+
+        function Factor_Picture( Answer_Count, All_Coords ){
+
+            this.answer_Count = Answer_Count
+
+            this.objs = []
+
+            for( let a = 0; a < All_Coords.length; a++ ){
+
+                let target_Radius
+
+                if( All_Coords[ a ][ 4 ] != undefined ){
+                    target_Radius = All_Coords[ a ][ 4 ]
+                }
+                else{
+                    target_Radius = 40
+                }
+
+                this.objs.push({
+                    hit: false,
+                    first: { x: All_Coords[ a ][ 0 ], y: All_Coords[ a ][ 1 ]  },
+                    second: { x: All_Coords[ a ][ 2 ], y: All_Coords[ a ][ 3 ]  },
+                    radius: target_Radius
+                })
+
+            }
+
+        }
+
+        //   First Picture
+        all_Pictures.push( new Factor_Picture( 
+            5, 
+            [
+                [ 140, 100, 140, 370 ],
+                [ 370, 170, 370, 440 ],
+                [ 430, 210, 440, 480 ],
+                [ 570, 250, 570, 520 ],
+                [ 660, 220, 660, 480 ],
+            ]
+        ))
+
+        //   Second Picture
+        all_Pictures.push( new Factor_Picture( 
+            5, 
+            [
+                [ 195, 165, 600, 165 ],
+                [ 195, 330, 600, 330 ],
+                [ 195, 360, 600, 360, 60 ],
+                [ 195, 400, 600, 400, 60 ],
+                [ 195, 520, 600, 520 ],
+            ]
+        ))
+
+        //   Third Picture
+        all_Pictures.push( new Factor_Picture( 
+            3, 
+            [
+                [ 245, 165, 600, 165, 70 ],
+                [ 245, 250, 605, 250 ],
+                [ 80, 470, 445, 470 ],
+            ]
+        ))
+
+        // --------------------------
+
+
+        window.addEventListener( "load", () => {
+
+            c.lineWidth = 5
+
+
+            c.drawImage( imgs[ current_Index ], 0, 0, 800, 600 )
+
+            //   First Picture
+            // -----------------------
+            // let first_X  = 245
+            // let second_X = 600
+            // let y = 165
+            // arcfs( first_X, y, 10, 'blue' )
+            // arcfs( second_X, y, 10, 'blue' )
+            // srs( first_X, y, radius, "red" )
+            // srs( second_X, y, radius, "red" )
+
+            // first_X  = 245
+            // second_X = 605
+            // y = 250
+            // arcfs( first_X, y, 10, 'blue' )
+            // arcfs( second_X, y, 10, 'blue' )
+            // srs( first_X, y, radius, "red" )
+            // srs( second_X, y, radius, "red" )
+
+            // first_X  = 80
+            // second_X = 445
+            // y = 470
+            // arcfs( first_X, y, 10, 'blue' )
+            // arcfs( second_X, y, 10, 'blue' )
+            // srs( first_X, y, radius, "red" )
+            // srs( second_X, y, radius, "red" )
+
+            //   Second
+            // ----------------------
+            // let first_X  = 195
+            // let second_X = 600
+            // let y = 165
+            // arcfs( first_X, y, 10, 'blue' )
+            // arcfs( second_X, y, 10, 'blue' )
+            // srs( first_X, y, radius, "red" )
+            // srs( second_X, y, radius, "red" )
+            
+            // first_X  = 195
+            // second_X = 600
+            // y = 330
+            // arcfs( first_X, y, 10, 'blue' )
+            // arcfs( second_X, y, 10, 'blue' )
+            // srs( first_X, y, radius, "red" )
+            // srs( second_X, y, radius, "red" )
+            
+            // first_X  = 195
+            // second_X = 600
+            // y = 360
+            // arcfs( first_X, y, 10, 'blue' )
+            // arcfs( second_X, y, 10, 'blue' )
+            // srs( first_X, y, radius, "red" )
+            // srs( second_X, y, radius, "red" )
+            
+            // first_X  = 195
+            // second_X = 600
+            // y = 400
+            // arcfs( first_X, y, 10, 'blue' )
+            // arcfs( second_X, y, 10, 'blue' )
+            // srs( first_X, y, radius, "red" )
+            // srs( second_X, y, radius, "red" )
+            
+            
+            // first_X  = 195
+            // second_X = 600
+            // y = 520
+            // arcfs( first_X, y, 10, 'blue' )
+            // arcfs( second_X, y, 10, 'blue' )
+            // srs( first_X, y, radius, "red" )
+            // srs( second_X, y, radius, "red" )
+
+            //   First Picture All Coordinates
+            // arcfs( 140, 100, 10, 'blue' )
+            // arcfs( 140, 370, 10, 'blue' )
+            // srs( 140, 100, radius, "red" )
+            // srs( 140, 370, radius, "red" )
+
+            // arcfs( 370, 170, 10, 'dodgerblue' )
+            // arcfs( 370, 440, 10, 'dodgerblue' )
+            // srs( 370, 170, radius, "red" )
+            // srs( 370, 440, radius, "red" )
+            
+            // arcfs( 430, 210, 5, 'red' )
+            // arcfs( 440, 480, 5, 'red' )
+            // srs( 430, 210, radius, "red" )
+            // srs( 440, 480, radius, "red" )
+
+            // arcfs( 570, 250, 7, 'purple' )
+            // arcfs( 570, 520, 7, 'purple' )
+            // srs( 570, 250, radius, "red" )
+            // srs( 570, 520, radius, "red" )
+
+            // arcfs( 660, 220, 7, 'black' )
+            // arcfs( 660, 480, 7, 'black' )
+            // srs( 660, 220, radius, "red" )
+            // srs( 660, 480, radius, "red" )
+
+        })
+        
+        //   mousemove
+        document.addEventListener( "mousemove", e => {
+
+            mouseX = e.clientX - canvas_Rect.left
+            mouseY = e.clientY - canvas_Rect.top
+
+        })
+
+
+        document.addEventListener( "mouseup", e => {
+
+            console.clear()
+            let current_Picture = all_Pictures[ current_Index ]
+
+            for( let a = 0; a < current_Picture.objs.length; a++ ){
+
+                let current_Obj = current_Picture.objs[ a ]
+
+                if( current_Obj.hit ){
+                    continue
+                }
+
+                //   Clicked on the correct spot in the first picture
+                let clicked_On_First_Coord = 
+                mouse_Is_In_Current_Circle( current_Obj.first.x, current_Obj.first.y, current_Obj.radius )
+
+                let clicked_On_Second_Coord = 
+                mouse_Is_In_Current_Circle( current_Obj.second.x, current_Obj.second.y, current_Obj.radius )
+
+                if( clicked_On_First_Coord || clicked_On_Second_Coord ){
+
+                    srs( current_Obj.first.x, current_Obj.first.y, current_Obj.radius, "red" )
+                    srs( current_Obj.second.x, current_Obj.second.y, current_Obj.radius, "red" )
+
+                    current_Obj.hit        = true
+                    correct_Answer_So_Far += 1
+                    if( correct_Answer_So_Far == all_Pictures[ current_Index ].answer_Count ){
+                        correct_Answer_So_Far = 0
+                        current_Index += 1
+
+                        if( current_Index == 3 ){
+                            c.fillStyle = 'grey'
+                            c.fillRect( 0, 0, c.canvas.width, c.canvas.height )
+                            c.font = "32px Arial"
+                            c.fillStyle = 'blue'
+                            c.fillText( "You Win!", 360, 300 )
+                        }
+                        else{
+                            c.drawImage( imgs[ current_Index ], 0, 0, 800, 600 )
+                        }
+                    }
+                    
+                    break
+                }
+
+            }
+
+        })
+
+        
+        document.addEventListener( "keyup", e => {
+
+            let key = e.key
+
+
+        })
+
+    </script>
+    
+</body>
+</html>
