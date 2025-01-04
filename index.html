@@ -272,7 +272,9 @@
 
         document.addEventListener( "mouseup", e => {
 
-            console.clear()
+            if( current_Index == 3 ){
+                return;
+            }
             
             let current_Picture = all_Pictures[ current_Index ]
 
@@ -322,12 +324,6 @@
         })
 
         
-        document.addEventListener( "keyup", e => {
-
-            let key = e.key
-
-
-        })
 
     </script>
     
